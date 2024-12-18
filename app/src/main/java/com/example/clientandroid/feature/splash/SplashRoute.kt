@@ -4,6 +4,7 @@ package com.example.clientandroid.feature.splash
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -21,14 +22,16 @@ import com.example.clientandroid.core.design.theme.ClientAndroidTheme
 
 
 @Composable
-fun SplashRoute(){
-    SplashRouteScreen()
-
-
+fun SplashRoute(
+    toGuide: () -> Unit,
+){
+    SplashRouteScreen(
+        toGuide=toGuide
+    )
 }
 
 @Composable
-fun SplashRouteScreen() {
+fun SplashRouteScreen(toGuide: () -> Unit={}) {
     Box(
         modifier = Modifier.fillMaxSize().background(color = MaterialTheme.colorScheme.background),
         contentAlignment = Alignment.Center
@@ -36,8 +39,15 @@ fun SplashRouteScreen() {
         Image(painter = painterResource(id= R.drawable.a), contentDescription = "")
 
         Text(text = "Hello World !",
-            modifier = Modifier.padding(bottom = 100.dp).align(Alignment.BottomCenter),
-            color = MaterialTheme.colorScheme.primary)
+            color = MaterialTheme.colorScheme.primary,
+            modifier = Modifier
+                .padding(bottom = 100.dp)
+                .align(Alignment.BottomCenter)
+                .clickable {
+                toGuide()
+            },
+        )
+
     }
 
 }

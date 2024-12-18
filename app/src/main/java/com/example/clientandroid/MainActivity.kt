@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.clientandroid.feature.splash.SplashRoute
 import com.example.clientandroid.core.design.theme.ClientAndroidTheme
+import com.example.clientandroid.ui.MyApp
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,8 +21,10 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ClientAndroidTheme (
+
 //                darkTheme = true
             ){
+                MyApp()
 //                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
 //                    Greeting(
 //                        name = "Android",
@@ -30,7 +33,7 @@ class MainActivity : ComponentActivity() {
 //                    MyButton("click", modifier =  Modifier.padding(top = 50.dp))
 //                }
 
-                SplashRoute()
+//                SplashRoute()
 
             }
         }
