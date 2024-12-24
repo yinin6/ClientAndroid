@@ -68,6 +68,7 @@ fun SplashRouteScreen(
 
         Text(text = "Hello World !",
             color = MaterialTheme.colorScheme.primary,
+            fontSize = MaterialTheme.typography.bodySmall.fontSize,
             modifier = Modifier
                 .padding(bottom = 100.dp)
                 .align(Alignment.BottomCenter)
@@ -76,9 +77,8 @@ fun SplashRouteScreen(
                 },
         )
 
-        Button(onClick = {
-            onSkipClick()
-        },
+        Button(
+            onClick = { onSkipClick() },
             modifier = Modifier
                 .padding(bottom = 50.dp)
                 .align(Alignment.BottomCenter)
@@ -102,7 +102,8 @@ fun SplashRouteScreen(
 
 }
 
-@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+// uiMode = Configuration.UI_MODE_NIGHT_YES 夜间模式
+@Preview(showBackground = true)
 @Composable
 fun SplashRoutePreview(): Unit {
     ClientAndroidTheme {
