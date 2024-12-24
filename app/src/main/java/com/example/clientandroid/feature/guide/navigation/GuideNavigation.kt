@@ -15,7 +15,12 @@ const val GUIDE_ROUTE = "guide"
  * 跳转界面
  */
 fun NavController.navigateToGuide() {
-    navigate(GUIDE_ROUTE)
+    navigate(GUIDE_ROUTE){
+        launchSingleTop = true
+        popUpTo(SPLASH_ROUTE) {
+            inclusive = true
+        }
+    }
 }
 
 /**
@@ -26,5 +31,4 @@ fun NavGraphBuilder.guideScreen(toBack:()->Unit): Unit {
         GuideRoute (
             toBack = toBack
         ) }
-
 }
