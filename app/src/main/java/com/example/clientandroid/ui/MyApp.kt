@@ -26,8 +26,6 @@ fun MyApp (){
         guideScreen (
             toBack = navController::popBackStack
         )
-
-        // Add more destinations similarly.
     }
 }
 
