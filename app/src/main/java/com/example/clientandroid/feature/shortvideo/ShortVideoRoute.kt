@@ -22,7 +22,7 @@ fun ShortViewRoute(
 
 @Composable
 fun ShortViewScreen(){
-   Text("ShortViewShortViewShortViewShortViewShortView")
+   Text("ShortView", modifier = Modifier.padding(16.dp))
 
 
 }

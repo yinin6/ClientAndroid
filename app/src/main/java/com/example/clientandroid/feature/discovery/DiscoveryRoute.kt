@@ -22,7 +22,7 @@ fun DiscoveryRoute(
 
 @Composable
 fun DiscoveryScreen(){
-    Text("discovery")
+    Text("discovery", modifier = Modifier.padding(16.dp))
 
 
 }

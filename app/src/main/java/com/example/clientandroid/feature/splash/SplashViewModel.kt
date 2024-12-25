@@ -28,7 +28,7 @@ class SplashViewModel: ViewModel () {
     }
 
     private fun startCountDown() {
-         timer = object : CountDownTimer(3000, 1000) {
+         timer = object : CountDownTimer(1000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 _timeLeft.value = millisUntilFinished / 1000 + 1
             }

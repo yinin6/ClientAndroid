@@ -22,7 +22,7 @@ fun MeRoute(
 
 @Composable
 fun MeScreen(){
-    Text("me  me   me")
+    Text("me",modifier = Modifier.padding(16.dp))
 
 
 }
