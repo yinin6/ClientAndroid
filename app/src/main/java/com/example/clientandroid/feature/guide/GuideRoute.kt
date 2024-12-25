@@ -29,9 +29,11 @@ fun GuideScreen(toBack:()-> Unit={}){
 
     ){
         Button(onClick = toBack) {
+            println("join this page")
             Text("返回")
         }
     }
+
 
 
 }
