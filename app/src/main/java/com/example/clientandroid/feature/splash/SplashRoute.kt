@@ -28,6 +28,7 @@ import com.example.clientandroid.core.design.theme.ClientAndroidTheme
 @Composable
 fun SplashRoute(
     toGuide: () -> Unit,
+    toMain:()->Unit
 ){
 
     // 创建 VM
@@ -44,6 +45,7 @@ fun SplashRoute(
         timeLeft = timeLeft,
         navigateToGuide = navigateToGuide,
         toGuide=toGuide,
+        toMain= toMain,
         onSkipClick = viewModel::onSkipClick,
     )
 }
@@ -52,6 +54,7 @@ fun SplashRoute(
 fun SplashRouteScreen(
     timeLeft: Long = 0,
     toGuide: () -> Unit = {},
+    toMain:()->Unit = {},
     navigateToGuide:Boolean = false,
     onSkipClick: () -> Unit = {},
 ) {
@@ -73,7 +76,8 @@ fun SplashRouteScreen(
                 .padding(bottom = 100.dp)
                 .align(Alignment.BottomCenter)
                 .clickable {
-                    toGuide()
+//                    toGuide()
+                    toMain()
                 },
         )
 
@@ -94,7 +98,8 @@ fun SplashRouteScreen(
 
     if (navigateToGuide){
         LaunchedEffect(true) {
-            toGuide()
+            //toGuide()
+            toMain()
         }
     }
 

@@ -8,7 +8,9 @@ import com.example.clientandroid.feature.guide.GuideRoute
 import com.example.clientandroid.feature.guide.GuideScreen
 import com.example.clientandroid.feature.guide.navigation.GUIDE_ROUTE
 import com.example.clientandroid.feature.guide.navigation.guideScreen
+import com.example.clientandroid.feature.guide.navigation.mainScreen
 import com.example.clientandroid.feature.guide.navigation.navigateToGuide
+import com.example.clientandroid.feature.guide.navigation.navigateToMain
 import com.example.clientandroid.feature.splash.SplashRoute
 import com.example.clientandroid.feature.splash.navigation.SPLASH_ROUTE
 import com.example.clientandroid.feature.splash.navigation.navigateToSplash
@@ -20,12 +22,14 @@ fun MyApp (){
 
     NavHost(navController = navController, startDestination = SPLASH_ROUTE) {
         splashScreen (
-            toGuide = navController::navigateToGuide
+            toGuide = navController::navigateToGuide,
+            toMain = navController::navigateToMain
         )
 
         guideScreen (
             toBack = navController::popBackStack
         )
+        mainScreen()
     }
 }
 
