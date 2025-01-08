@@ -1,13 +1,20 @@
 package com.example.clientandroid.feature.guide
 
+import android.net.wifi.aware.DiscoverySession
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.overscroll
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
@@ -24,13 +31,20 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import com.example.clientandroid.core.model.DailyHot
+import com.example.clientandroid.core.model.User
+import com.example.clientandroid.core.ui.PreviewData
+import com.example.clientandroid.feature.discovery.component.ItemHot
 
 @Composable
 fun DiscoveryRoute(
 
 ){
     DiscoveryScreen(
+        dailyHots = PreviewData.dailyHots,
     )
 }
 
@@ -38,6 +52,7 @@ fun DiscoveryRoute(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DiscoveryScreen(
+    dailyHots: List<DailyHot> = emptyList(),
     toSearch :() -> Unit = {},
 ){
     Scaffold (
@@ -45,19 +60,26 @@ fun DiscoveryScreen(
             MyDiscoveryTopBar(toSearch)
         },
         containerColor = Color.White
-
-    ){
+    )
+    {
         paddingValues ->
-        LazyColumn (modifier = Modifier
+        LazyColumn (
+            contentPadding = PaddingValues(5.dp),
+            verticalArrangement = Arrangement.spacedBy(5.dp),
+            modifier = Modifier
             .fillMaxSize()
-            .padding(paddingValues))
-            {
-            item {
-                Text(text = "Discovery")
-            }
+            .padding(top = paddingValues.calculateTopPadding())
+
+
+        ) {
+                items(dailyHots) {
+                    ItemHot(data = it)
+                }
         }
 
+
     }
+
 
 }
 
@@ -96,5 +118,13 @@ private fun MyDiscoveryTopBar(toSearch: () -> Unit) {
 
             }
         }
+    )
+}
+
+@Preview
+@Composable
+fun DiscoveryScreenPreview() {
+    DiscoveryScreen(
+        dailyHots = PreviewData.dailyHots
     )
 }

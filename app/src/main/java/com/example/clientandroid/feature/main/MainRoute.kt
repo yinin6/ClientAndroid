@@ -57,7 +57,7 @@ fun MainScreen(
                 .weight(1f).fillMaxWidth()) {
             when (pagerState.currentPage) {
                 0 -> {
-                    DiscoveryScreen()
+                    DiscoveryRoute()
                 }
                 1 -> {
                     ShortViewScreen()
