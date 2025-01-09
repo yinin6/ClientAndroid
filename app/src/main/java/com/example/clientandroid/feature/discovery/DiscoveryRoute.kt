@@ -29,6 +29,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -37,14 +39,17 @@ import androidx.compose.ui.unit.dp
 import com.example.clientandroid.core.model.DailyHot
 import com.example.clientandroid.core.model.User
 import com.example.clientandroid.core.ui.PreviewData
+import com.example.clientandroid.feature.discovery.DiscoveryViewModel
 import com.example.clientandroid.feature.discovery.component.ItemHot
 
 @Composable
 fun DiscoveryRoute(
 
 ){
+    val viewModel = DiscoveryViewModel()
+    val datum by viewModel.datum.collectAsState()
     DiscoveryScreen(
-        dailyHots = PreviewData.dailyHots,
+        dailyHots = datum,
     )
 }
 
