@@ -13,7 +13,7 @@ object PreviewData {
 
     val dailyHots = mutableListOf<DailyHot>()
     init {
-        for (i in 1..100) {
+        for (i in 1..20) {
             dailyHots.add(
                 DailyHot(
                     id = i,

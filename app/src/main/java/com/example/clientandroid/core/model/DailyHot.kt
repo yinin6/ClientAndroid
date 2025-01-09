@@ -1,5 +1,8 @@
 package com.example.clientandroid.core.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class DailyHot(
     val id: Int? = null,
     val title: String? = null,
