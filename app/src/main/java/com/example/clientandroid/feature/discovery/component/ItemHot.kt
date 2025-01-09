@@ -16,10 +16,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.clientandroid.core.model.DailyHot
+import com.example.clientandroid.core.model.PoetryData
 
 @Composable
 fun ItemHot(
-    data: DailyHot,
+    data: DailyHot?=null,
+    poetry: PoetryData,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -29,16 +31,13 @@ fun ItemHot(
             .background(color = Color.White)
 
     ) {
-        Text(
-            text = "hello"
-        )
 
         Column (
             modifier = Modifier
                 .weight(1f)
                 .padding(1.dp)
         ) {
-            data.title?.let {
+            poetry.origin?.title?.let {
                 Text(text = it,
                     minLines = 1,
                     maxLines = 2,
@@ -47,7 +46,7 @@ fun ItemHot(
                 )
             }
 
-            data.description?.let {
+            poetry.content?.let {
                 Text(text = it,
                     minLines = 2,
                     maxLines = 2,
@@ -78,6 +77,12 @@ fun ItemHotPreview() {
             url = "url",
             description = "description",
             category = "category",
+        ),
+        poetry = PoetryData(
+            content = "content",
+            popularity = 1,
+            recommendedReason = "recommendedReason",
+            cacheAt = "cacheAt"
         )
     )
 }

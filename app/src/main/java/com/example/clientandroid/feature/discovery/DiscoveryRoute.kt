@@ -1,9 +1,11 @@
 package com.example.clientandroid.feature.guide
 
 import android.net.wifi.aware.DiscoverySession
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -36,20 +38,27 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.clientandroid.core.model.DailyHot
+import com.example.clientandroid.core.model.PoetryData
 import com.example.clientandroid.core.model.User
 import com.example.clientandroid.core.ui.PreviewData
 import com.example.clientandroid.feature.discovery.DiscoveryViewModel
 import com.example.clientandroid.feature.discovery.component.ItemHot
 
+
+
+
 @Composable
 fun DiscoveryRoute(
 
 ){
-    val viewModel = DiscoveryViewModel()
-    val datum by viewModel.datum.collectAsState()
-    DiscoveryScreen(
-        dailyHots = datum,
+    val viewModel:DiscoveryViewModel = viewModel()
+    val poetry by viewModel.poetry.collectAsState()
+    Log.d("DiscoveryViewModel", "DiscoveryRoute")
+   DiscoveryScreen(
+        toSearch = { viewModel.getPoetry() },
+        poetryList = poetry
     )
 }
 
@@ -57,6 +66,7 @@ fun DiscoveryRoute(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DiscoveryScreen(
+    poetryList: List<PoetryData> = emptyList(),
     dailyHots: List<DailyHot> = emptyList(),
     toSearch :() -> Unit = {},
 ){
@@ -68,24 +78,23 @@ fun DiscoveryScreen(
     )
     {
         paddingValues ->
+
+
+
         LazyColumn (
             contentPadding = PaddingValues(5.dp),
             verticalArrangement = Arrangement.spacedBy(5.dp),
             modifier = Modifier
-            .fillMaxSize()
-            .padding(top = paddingValues.calculateTopPadding())
-
-
+                .fillMaxSize()
+                .padding(top = paddingValues.calculateTopPadding())
         ) {
-                items(dailyHots) {
-                    ItemHot(data = it)
+                items(poetryList) {
+                    ItemHot(
+                        poetry = it,
+                    )
                 }
         }
-
-
     }
-
-
 }
 
 @Composable
