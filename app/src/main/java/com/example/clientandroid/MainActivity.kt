@@ -21,20 +21,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ClientAndroidTheme (
-
-//                darkTheme = true
             ){
                 MyApp()
-//                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-//                    Greeting(
-//                        name = "Android",
-//                        modifier = Modifier.padding(innerPadding)
-//                    )
-//                    MyButton("click", modifier =  Modifier.padding(top = 50.dp))
-//                }
-
-//                SplashRoute()
-
             }
         }
     }
