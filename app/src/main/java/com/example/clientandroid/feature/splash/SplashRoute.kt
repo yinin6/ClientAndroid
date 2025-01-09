@@ -39,8 +39,6 @@ fun SplashRoute(
     val navigateToGuide by viewModel.navigateToGuide.collectAsState()
 
 
-
-
     SplashRouteScreen(
         timeLeft = timeLeft,
         navigateToGuide = navigateToGuide,
@@ -89,11 +87,8 @@ fun SplashRouteScreen(
             ) {
             Text(
                 text = "跳过 $timeLeft s",
-
             )
         }
-
-
     }
 
     if (navigateToGuide){
