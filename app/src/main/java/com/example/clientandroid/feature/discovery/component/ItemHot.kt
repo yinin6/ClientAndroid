@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -37,32 +37,43 @@ fun ItemHot(
                 .weight(1f)
                 .padding(1.dp)
         ) {
-            poetry.origin?.title?.let {
-                Text(text = it,
-                    minLines = 1,
-                    maxLines = 2,
-                    style = MaterialTheme.typography.titleSmall,
-                    overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
-                )
-            }
-
-            poetry.content?.let {
-                Text(text = it,
-                    minLines = 2,
-                    maxLines = 2,
-                    style = MaterialTheme.typography.bodySmall,
-                    overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
-                    modifier = Modifier.padding(2.dp)
-                )
-            }
-
+            PoemCard(poetry)
         }
     }
-    HorizontalDivider(
-        modifier = Modifier.padding(vertical = 8.dp), // 设置上下间距
-        thickness = 1.dp, // 设置线条的厚度
-        color = Color.Gray // 设置颜色
-    )
+}
+
+// 显示古诗的卡片
+@Composable
+fun PoemCard(poetry: PoetryData) {
+    Card(
+        shape = RoundedCornerShape(8.dp),  // 卡片的圆角
+        modifier = Modifier
+            .padding(2.dp)  // 卡片的间距
+    ) {
+        Column(modifier = Modifier
+            .padding(16.dp)
+            .fillMaxWidth()
+
+        ) {
+            Text(
+                text = "${poetry.origin?.title}",
+                style = MaterialTheme.typography.titleMedium,  // 使用默认的 h6 样式
+                color = MaterialTheme.colorScheme.primary // 使用主题的主色
+            )
+            Text(
+                text = "${poetry.origin?.author}",
+                style = MaterialTheme.typography.bodyMedium,  // 使用正文2样式
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f), // 用淡色显示作者
+                modifier = Modifier.padding(top = 4.dp)
+            )
+            Text(
+                text = "${poetry.origin?.content}",
+                style = MaterialTheme.typography.bodySmall,  // 使用正文1样式
+                color = MaterialTheme.colorScheme.onSurface, // 正文文字颜色
+                modifier = Modifier.padding(top = 8.dp)
+            )
+        }
+    }
 }
 
 

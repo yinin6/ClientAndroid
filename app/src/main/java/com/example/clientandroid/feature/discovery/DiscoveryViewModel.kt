@@ -1,6 +1,7 @@
 package com.example.clientandroid.feature.discovery
 
 import android.util.Log
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.clientandroid.core.config.Config
@@ -29,6 +30,10 @@ class DiscoveryViewModel: ViewModel() {
     private val _poetry = MutableStateFlow<List<PoetryData>>(emptyList())
     val poetry: StateFlow<List<PoetryData>> = _poetry
 
+
+    private val _isLoading = MutableStateFlow<Boolean>(true)
+    val isLoading: StateFlow<Boolean> = _isLoading
+
 //    init {
 //        _datum.value = PreviewData.dailyHots
 //        testJSON()
@@ -42,17 +47,23 @@ class DiscoveryViewModel: ViewModel() {
     }
 
 
-    fun getPoetry() : Unit{
+    private fun getPoetry() : Unit{
         viewModelScope.launch {
-
+            _isLoading.value = true
             val poetryList = mutableListOf<PoetryData>()
             for ( i in 0..2) {
                 val result = MyRetrofitDatasource.poetry()
                 result.data?.let { poetryList.add(it) }
-
             }
             _poetry.value = poetryList
+            Log.d(TAG, "getPoetry: $poetryList")
+            _isLoading.value = false
         }
+    }
+
+    // 刷新数据的方法
+    fun refreshPoems() {
+        getPoetry()
     }
 
 

@@ -23,6 +23,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -31,8 +32,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -45,8 +50,7 @@ import com.example.clientandroid.core.model.User
 import com.example.clientandroid.core.ui.PreviewData
 import com.example.clientandroid.feature.discovery.DiscoveryViewModel
 import com.example.clientandroid.feature.discovery.component.ItemHot
-
-
+import kotlinx.coroutines.delay
 
 
 @Composable
@@ -55,10 +59,13 @@ fun DiscoveryRoute(
 ){
     val viewModel:DiscoveryViewModel = viewModel()
     val poetry by viewModel.poetry.collectAsState()
-    Log.d("DiscoveryViewModel", "DiscoveryRoute")
+    val isLoading by viewModel.isLoading.collectAsState()
+
+
    DiscoveryScreen(
-        toSearch = { viewModel.getPoetry() },
-        poetryList = poetry
+        toSearch = { viewModel.refreshPoems() },
+        poetryList = poetry,
+       isLoading = isLoading
     )
 }
 
@@ -69,6 +76,7 @@ fun DiscoveryScreen(
     poetryList: List<PoetryData> = emptyList(),
     dailyHots: List<DailyHot> = emptyList(),
     toSearch :() -> Unit = {},
+    isLoading : Boolean = false
 ){
     Scaffold (
         topBar = {
@@ -79,20 +87,23 @@ fun DiscoveryScreen(
     {
         paddingValues ->
 
-
-
-        LazyColumn (
-            contentPadding = PaddingValues(5.dp),
-            verticalArrangement = Arrangement.spacedBy(5.dp),
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(top = paddingValues.calculateTopPadding())
-        ) {
+        if (isLoading) {
+            LoadingIndicator()
+            return@Scaffold
+        }else {
+            LazyColumn (
+                contentPadding = PaddingValues(5.dp),
+                verticalArrangement = Arrangement.spacedBy(5.dp),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = paddingValues.calculateTopPadding())
+            ) {
                 items(poetryList) {
                     ItemHot(
                         poetry = it,
                     )
                 }
+            }
         }
     }
 }
@@ -134,6 +145,26 @@ private fun MyDiscoveryTopBar(toSearch: () -> Unit) {
         }
     )
 }
+
+
+// 显示加载动画
+@Composable
+fun LoadingIndicator() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = androidx.compose.ui.Alignment.Center
+    ) {
+        CircularProgressIndicator()
+    }
+}
+
+@Preview
+@Composable
+fun LoadingIndicatorPreview() {
+    LoadingIndicator()
+}
+
+
 
 @Preview
 @Composable
