@@ -32,7 +32,7 @@ fun MainRoute(){
 
 @Composable
 fun MainScreen(
-
+    userID : String = ""
 ){
     // 当前选中的界面 router
     var currentDestination by rememberSaveable {

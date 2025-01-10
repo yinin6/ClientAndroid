@@ -28,44 +28,5 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
 
 
-
-
-
-@Composable
-fun MyButton(title:String, modifier: Modifier = Modifier ){
-    Button(onClick = {
-        Log.d("Button","click")
-    },
-        modifier = modifier.fillMaxWidth()
-        ) {
-        Text(title)
-    }
-}
-
-
-@Preview(showBackground = true)
-@Composable
-fun buttonPreview(){
-    MyButton("hello")
-}
-
-
-
-
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    ClientAndroidTheme {
-        Greeting("Android")
-    }
-}

@@ -28,6 +28,6 @@ fun NavController.navigateToMain() {
  */
 fun NavGraphBuilder.mainScreen(): Unit {
     myComposable(MAIN_ROUTE) {
-        MainRoute ()
+        MainRoute()
     }
 }

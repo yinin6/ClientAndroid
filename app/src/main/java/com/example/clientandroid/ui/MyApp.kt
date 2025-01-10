@@ -11,6 +11,8 @@ import com.example.clientandroid.feature.guide.navigation.guideScreen
 import com.example.clientandroid.feature.guide.navigation.mainScreen
 import com.example.clientandroid.feature.guide.navigation.navigateToGuide
 import com.example.clientandroid.feature.guide.navigation.navigateToMain
+import com.example.clientandroid.feature.login.navigation.LOGIN_ROUTE
+import com.example.clientandroid.feature.login.navigation.loginScreen
 import com.example.clientandroid.feature.splash.SplashRoute
 import com.example.clientandroid.feature.splash.navigation.SPLASH_ROUTE
 import com.example.clientandroid.feature.splash.navigation.navigateToSplash
@@ -20,16 +22,19 @@ import com.example.clientandroid.feature.splash.navigation.splashScreen
 fun MyApp (){
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = SPLASH_ROUTE) {
+    NavHost(navController = navController, startDestination = LOGIN_ROUTE) {
         splashScreen (
             toGuide = navController::navigateToGuide,
             toMain = navController::navigateToMain
         )
-
         guideScreen (
             toBack = navController::popBackStack
         )
         mainScreen()
+
+        loginScreen(
+            login = navController::navigateToMain
+        )
     }
 }
 
