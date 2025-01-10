@@ -33,7 +33,7 @@ fun MyApp (){
         mainScreen()
 
         loginScreen(
-            login = navController::navigateToMain
+            toMain = navController::navigateToMain
         )
     }
 }

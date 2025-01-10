@@ -2,6 +2,7 @@ package com.example.clientandroid.feature.login.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import com.example.clientandroid.feature.login.LoginRoute
 import com.example.clientandroid.feature.login.LoginScreen
 import com.example.clientandroid.feature.splash.navigation.SPLASH_ROUTE
 import com.example.clientandroid.ui.navigation.myComposable
@@ -23,8 +24,8 @@ fun NavController.navigateToLogin() {
 /**
  * 配置导航
  */
-fun NavGraphBuilder.loginScreen(login : () -> Unit): Unit {
+fun NavGraphBuilder.loginScreen(toMain : (username: String) -> Unit): Unit {
     myComposable(LOGIN_ROUTE) {
-        LoginScreen(login)
+        LoginRoute(toMain = toMain)
     }
 }

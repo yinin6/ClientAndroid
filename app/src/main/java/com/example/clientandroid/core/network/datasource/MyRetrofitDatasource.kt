@@ -13,7 +13,6 @@ import retrofit2.converter.kotlinx.serialization.asConverterFactory
  * Retrofit 数据源
  */
 object MyRetrofitDatasource {
-
     val loggingInterceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY // 设置日志级别
     }

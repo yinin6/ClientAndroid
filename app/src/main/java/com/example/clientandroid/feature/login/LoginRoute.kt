@@ -18,16 +18,38 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.clientandroid.core.model.LoginResponse
+import com.example.clientandroid.core.model.respond.NetworkResponse
+import com.example.clientandroid.feature.discovery.DiscoveryViewModel
+import kotlinx.coroutines.delay
 
 
+@Composable
+fun LoginRoute(
+    toMain : (username: String) -> Unit = {},
+){
+    val viewModel: LoginViewModel = viewModel()
+    val loginRespond by viewModel.loginRespond.collectAsState()
+
+    LoginScreen(
+        toMain = toMain,
+        login =  viewModel::login,
+        loginRespond = loginRespond,
+    )
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
-    login : () -> Unit = {}
+    toMain : (username: String) -> Unit = {},
+    login : (username: String, password: String) -> Unit = { _, _ -> },
+    loginRespond : NetworkResponse<LoginResponse>? = null,
 ) {
-    var username by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+
+    var username by remember { mutableStateOf("asd") }
+    var password by remember { mutableStateOf("asd") }
+    var isLoading by remember { mutableStateOf(false) }
     val context = LocalContext.current
 
     Surface(
@@ -46,14 +68,14 @@ fun LoginScreen(
                 style = MaterialTheme.typography.headlineLarge,
                 modifier = Modifier.padding(bottom = 32.dp)
             )
-
             OutlinedTextField(
                 value = username,
                 onValueChange = { username = it },
                 label = { Text("用户名") },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 16.dp)
+                    .padding(bottom = 16.dp),
+                enabled = !isLoading,
             )
 
             OutlinedTextField(
@@ -64,25 +86,45 @@ fun LoginScreen(
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 24.dp)
+                    .padding(bottom = 24.dp),
+                        enabled = !isLoading,
             )
-
             Button(
                 onClick = {
                     if (username.isNotBlank() && password.isNotBlank()) {
-                        // 在这里执行登录逻辑
-                        Toast.makeText(context, "登录成功！", Toast.LENGTH_SHORT).show()
-
-                        login()
-
+                        isLoading = true
+                        login(username, password)
                     } else {
                         Toast.makeText(context, "用户名或密码不能为空！", Toast.LENGTH_SHORT).show()
                     }
                 },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                enabled = !isLoading,
             ) {
                 Text("登录")
             }
+
+            if (isLoading) {
+                CircularProgressIndicator()
+            }
+
+            LaunchedEffect(loginRespond){
+                delay(1000)
+                isLoading = false
+                if (loginRespond != null) {
+                    when (loginRespond.status) {
+                        200 -> {
+                            Toast.makeText(context, "登录成功！", Toast.LENGTH_SHORT).show()
+                            toMain(username)
+                        }
+                        0 ->{}
+                        else -> {
+                            Toast.makeText(context, "登录失败！${loginRespond.message}", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            }
+
         }
     }
 }

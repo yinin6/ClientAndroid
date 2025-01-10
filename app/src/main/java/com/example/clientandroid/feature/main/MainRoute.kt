@@ -1,5 +1,6 @@
 package com.example.clientandroid.feature.guide
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,14 +26,16 @@ import com.example.clientandroid.feature.main.navigation.TopLevelDestination
 import kotlinx.coroutines.launch
 
 @Composable
-fun MainRoute(){
-    MainScreen()
+fun MainRoute(
+    username : String? = "",
+){
+    MainScreen(username)
 }
 
 
 @Composable
 fun MainScreen(
-    userID : String = ""
+    userID : String? = ""
 ){
     // 当前选中的界面 router
     var currentDestination by rememberSaveable {
@@ -40,13 +43,14 @@ fun MainScreen(
     }
     val scope = rememberCoroutineScope()
 
+    Log.d("MainScreen", "$userID")
+
+
+
 
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-
-
-
         val pagerState = rememberPagerState {
             TopLevelDestination.entries.size
         }
@@ -54,7 +58,8 @@ fun MainScreen(
             state = pagerState,
             userScrollEnabled = false,
             modifier = Modifier
-                .weight(1f).fillMaxWidth()) {
+                .weight(1f)
+                .fillMaxWidth()) {
             when (pagerState.currentPage) {
                 0 -> {
                     DiscoveryRoute()

@@ -2,7 +2,9 @@ package com.example.clientandroid.feature.guide.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.example.clientandroid.feature.guide.GuideRoute
 import com.example.clientandroid.feature.guide.GuideScreen
 import com.example.clientandroid.feature.guide.MainRoute
@@ -16,8 +18,8 @@ const val MAIN_ROUTE = "main"
 /**
  * 跳转界面
  */
-fun NavController.navigateToMain() {
-    navigate(MAIN_ROUTE){
+fun NavController.navigateToMain(username : String? = "") {
+    navigate("$MAIN_ROUTE/{$username}"){
         launchSingleTop = true
         popUpTo(MAIN_ROUTE)
     }
@@ -27,7 +29,13 @@ fun NavController.navigateToMain() {
  * 配置导航
  */
 fun NavGraphBuilder.mainScreen(): Unit {
-    myComposable(MAIN_ROUTE) {
-        MainRoute()
+    myComposable(
+        "$MAIN_ROUTE/{username}",
+        arguments = listOf(navArgument("username") { type = NavType.StringType })
+
+    ) {
+            backStackEntry ->
+        val username = backStackEntry.arguments?.getString("username")
+        MainRoute(username)
     }
 }
