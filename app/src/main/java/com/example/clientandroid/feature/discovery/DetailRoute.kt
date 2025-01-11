@@ -33,7 +33,11 @@ fun PoetryScreen(poetry: PoetryOrigin) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(
+                top = 50.dp,
+                start = 16.dp,
+                end = 16.dp
+            )
             .verticalScroll(rememberScrollState())
     ) {
         // 标题
