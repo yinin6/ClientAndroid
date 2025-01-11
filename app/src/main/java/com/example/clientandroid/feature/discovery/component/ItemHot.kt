@@ -57,7 +57,7 @@ fun PoemCard(poetry: PoetryData) {
         ) {
             Text(
                 text = "${poetry.origin?.title}",
-                style = MaterialTheme.typography.titleMedium,  // 使用默认的 h6 样式
+                style = MaterialTheme.typography.titleLarge,  // 使用默认的 h6 样式
                 color = MaterialTheme.colorScheme.primary // 使用主题的主色
             )
             Text(
@@ -67,8 +67,8 @@ fun PoemCard(poetry: PoetryData) {
                 modifier = Modifier.padding(top = 4.dp)
             )
             Text(
-                text = "${poetry.origin?.content}",
-                style = MaterialTheme.typography.bodySmall,  // 使用正文1样式
+                text = "${poetry.content}",
+                style = MaterialTheme.typography.bodyMedium,  // 使用正文1样式
                 color = MaterialTheme.colorScheme.onSurface, // 正文文字颜色
                 modifier = Modifier.padding(top = 8.dp)
             )

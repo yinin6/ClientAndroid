@@ -22,7 +22,7 @@ object MyRetrofitDatasource {
         .build()
 
     private val service = Retrofit.Builder()
-        .baseUrl(Config.POETRY_BASE_URL)
+        .baseUrl(Config.LOGIN_URL)
         .client(okHttpClient)
         .addConverterFactory(
             Json.asConverterFactory(

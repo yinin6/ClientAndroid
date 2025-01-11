@@ -7,7 +7,7 @@ import retrofit2.http.Headers
 
 
 interface MyNetworkApiService {
-    @GET("sentence")
+    @GET("poetry")
     @Headers("X-User-Token: ${Config.POETRY_TOKEN}")
     suspend fun getPoetry(): Json2Poetry
 }

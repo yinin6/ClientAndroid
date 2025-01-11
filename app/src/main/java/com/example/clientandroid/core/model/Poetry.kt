@@ -9,7 +9,7 @@ data class PoetryData (
     @SerialName("content"           ) var content           : String?           = null,
     @SerialName("popularity"        ) var popularity        : Int?              = null,
     @SerialName("origin"            ) var origin            : PoetryOrigin?          = PoetryOrigin(),
-    @SerialName("matchTags"         ) var matchTags         : ArrayList<String> = arrayListOf(),
+    @SerialName("matchTags"         ) var matchTags         : ArrayList<String>? = arrayListOf(),
     @SerialName("recommendedReason" ) var recommendedReason : String?           = null,
     @SerialName("cacheAt"           ) var cacheAt           : String?           = null
 
