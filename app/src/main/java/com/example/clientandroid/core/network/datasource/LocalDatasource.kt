@@ -4,6 +4,7 @@ import com.example.clientandroid.core.config.Config
 import com.example.clientandroid.core.model.Json2Poetry
 import com.example.clientandroid.core.model.LoginRequest
 import com.example.clientandroid.core.model.LoginResponse
+import com.example.clientandroid.core.model.Note
 import com.example.clientandroid.core.model.User
 import com.example.clientandroid.core.model.respond.NetworkResponse
 import com.example.clientandroid.core.network.retrofit.LocalApiService
@@ -24,7 +25,14 @@ object LocalDatasource {
 
     suspend fun login(username: String, password: String):  NetworkResponse<LoginResponse>{
         val request = LoginRequest(username, password)
-
         return serviceLocal.login(request)
+    }
+
+    suspend fun saveDiaryEntry(note : Note): NetworkResponse<Note> {
+        return serviceLocal.saveDiaryEntry(note)
+    }
+
+    suspend fun getUserNote(username : String): NetworkResponse<List<Note>> {
+        return serviceLocal.getUserNotes(username)
     }
 }

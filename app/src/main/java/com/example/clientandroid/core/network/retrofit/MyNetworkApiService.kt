@@ -10,4 +10,7 @@ interface MyNetworkApiService {
     @GET("poetry")
     @Headers("X-User-Token: ${Config.POETRY_TOKEN}")
     suspend fun getPoetry(): Json2Poetry
+
+
+
 }

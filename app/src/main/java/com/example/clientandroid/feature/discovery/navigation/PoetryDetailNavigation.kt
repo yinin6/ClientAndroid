@@ -28,8 +28,6 @@ const val POETRY_DETAIL_ROUTE = "POETRY_DETAIL_ROUTE"
 fun NavController.navigateToPoetryDetail(poetry: PoetryOrigin) : Unit {
     val poetryJson = Json.encodeToString(poetry)
     Log.d("navigateToPoetryDetail", "encodeToString: $poetryJson")
-
-
     navigate("$POETRY_DETAIL_ROUTE/$poetryJson")
 }
 

@@ -1,6 +1,7 @@
 package com.example.clientandroid.ui
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -12,6 +13,7 @@ import com.example.clientandroid.feature.guide.navigation.mainScreen
 import com.example.clientandroid.feature.guide.navigation.navigateToGuide
 import com.example.clientandroid.feature.guide.navigation.navigateToMain
 import com.example.clientandroid.feature.guide.navigation.navigateToPoetryDetail
+import com.example.clientandroid.feature.guide.navigation.noteDetailScreen
 import com.example.clientandroid.feature.guide.navigation.poetryDetailScreen
 import com.example.clientandroid.feature.login.navigation.LOGIN_ROUTE
 import com.example.clientandroid.feature.login.navigation.loginScreen
@@ -40,6 +42,8 @@ fun MyApp (){
         )
 
         poetryDetailScreen()
+
+        noteDetailScreen()
     }
 }
 

@@ -1,6 +1,7 @@
 package com.example.clientandroid.feature.login
 
 
+import android.content.Context
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -32,6 +33,8 @@ fun LoginRoute(
     val viewModel: LoginViewModel = viewModel()
     val loginRespond by viewModel.loginRespond.collectAsState()
 
+
+
     LoginScreen(
         toMain = toMain,
         login =  viewModel::login,
@@ -51,6 +54,9 @@ fun LoginScreen(
     var password by remember { mutableStateOf("asd") }
     var isLoading by remember { mutableStateOf(false) }
     val context = LocalContext.current
+
+    val sharedPreferences = remember { context.getSharedPreferences("AppPrefs", Context.MODE_PRIVATE) }
+
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -109,12 +115,13 @@ fun LoginScreen(
             }
 
             LaunchedEffect(loginRespond){
-                delay(1000)
                 isLoading = false
                 if (loginRespond != null) {
                     when (loginRespond.status) {
                         200 -> {
                             Toast.makeText(context, "登录成功！", Toast.LENGTH_SHORT).show()
+                            sharedPreferences.edit().putString("username", username).apply()
+
                             toMain(username)
                         }
                         0 ->{}

@@ -66,7 +66,9 @@ fun MainScreen(
                     }
                 }
                 1 -> {
-                    ShortViewScreen()
+                    if (navController != null) {
+                        NoteRoute(navController)
+                    }
                 }
                 2 -> {
                     MeScreen()
@@ -85,9 +87,6 @@ fun MainScreen(
                 }
             }
         )
-
-
-
     }
 
 
