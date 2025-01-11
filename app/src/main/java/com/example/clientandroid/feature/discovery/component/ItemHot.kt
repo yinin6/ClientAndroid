@@ -1,6 +1,7 @@
 package com.example.clientandroid.feature.discovery.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,15 +16,22 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.clientandroid.core.model.DailyHot
 import com.example.clientandroid.core.model.PoetryData
+import com.example.clientandroid.feature.guide.navigation.navigateToPoetryDetail
+import com.example.clientandroid.feature.login.navigation.navigateToLogin
+
 
 @Composable
 fun ItemHot(
     data: DailyHot?=null,
     poetry: PoetryData,
     modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
 ) {
+
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -37,23 +45,26 @@ fun ItemHot(
                 .weight(1f)
                 .padding(1.dp)
         ) {
-            PoemCard(poetry)
+            PoemCard(poetry, onClick)
         }
     }
 }
 
 // 显示古诗的卡片
 @Composable
-fun PoemCard(poetry: PoetryData) {
+fun PoemCard(poetry: PoetryData, onClick: () -> Unit = {}) {
     Card(
         shape = RoundedCornerShape(8.dp),  // 卡片的圆角
         modifier = Modifier
             .padding(2.dp)  // 卡片的间距
+            .clickable { poetry.id?.let {
+                onClick()
+            } }
+
     ) {
         Column(modifier = Modifier
             .padding(16.dp)
             .fillMaxWidth()
-
         ) {
             Text(
                 text = "${poetry.origin?.title}",
@@ -94,7 +105,8 @@ fun ItemHotPreview() {
             popularity = 1,
             recommendedReason = "recommendedReason",
             cacheAt = "cacheAt"
-        )
+        ),
+
     )
 }
 

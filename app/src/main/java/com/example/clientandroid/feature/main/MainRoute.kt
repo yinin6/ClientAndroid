@@ -21,6 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.clientandroid.core.design.component.MyNavigationBar
 import com.example.clientandroid.feature.main.navigation.TopLevelDestination
 import kotlinx.coroutines.launch
@@ -28,25 +29,23 @@ import kotlinx.coroutines.launch
 @Composable
 fun MainRoute(
     username : String? = "",
+    navController: NavController
 ){
-    MainScreen(username)
+    Log.d("MainScreen", "MainRoute: $username")
+    MainScreen(username,navController)
 }
 
 
 @Composable
 fun MainScreen(
-    userID : String? = ""
+    userID : String? = "",
+    navController: NavController? = null
 ){
     // 当前选中的界面 router
     var currentDestination by rememberSaveable {
         mutableStateOf(TopLevelDestination.DISCOVERY.route)
     }
     val scope = rememberCoroutineScope()
-
-    Log.d("MainScreen", "$userID")
-
-
-
 
     Column(
         modifier = Modifier.fillMaxSize()
@@ -62,7 +61,9 @@ fun MainScreen(
                 .fillMaxWidth()) {
             when (pagerState.currentPage) {
                 0 -> {
-                    DiscoveryRoute()
+                    if (navController != null) {
+                        DiscoveryRoute(navController)
+                    }
                 }
                 1 -> {
                     ShortViewScreen()

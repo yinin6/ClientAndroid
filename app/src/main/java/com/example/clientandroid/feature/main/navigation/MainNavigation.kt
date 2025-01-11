@@ -28,14 +28,13 @@ fun NavController.navigateToMain(username : String? = "") {
 /**
  * 配置导航
  */
-fun NavGraphBuilder.mainScreen(): Unit {
+fun NavGraphBuilder.mainScreen(navController: NavController): Unit {
     myComposable(
         "$MAIN_ROUTE/{username}",
         arguments = listOf(navArgument("username") { type = NavType.StringType })
-
     ) {
             backStackEntry ->
         val username = backStackEntry.arguments?.getString("username")
-        MainRoute(username)
+        MainRoute(username, navController = navController)
     }
 }

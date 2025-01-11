@@ -11,6 +11,8 @@ import com.example.clientandroid.feature.guide.navigation.guideScreen
 import com.example.clientandroid.feature.guide.navigation.mainScreen
 import com.example.clientandroid.feature.guide.navigation.navigateToGuide
 import com.example.clientandroid.feature.guide.navigation.navigateToMain
+import com.example.clientandroid.feature.guide.navigation.navigateToPoetryDetail
+import com.example.clientandroid.feature.guide.navigation.poetryDetailScreen
 import com.example.clientandroid.feature.login.navigation.LOGIN_ROUTE
 import com.example.clientandroid.feature.login.navigation.loginScreen
 import com.example.clientandroid.feature.splash.SplashRoute
@@ -30,11 +32,14 @@ fun MyApp (){
         guideScreen (
             toBack = navController::popBackStack
         )
-        mainScreen()
+
+        mainScreen(navController)
 
         loginScreen(
             toMain = navController::navigateToMain
         )
+
+        poetryDetailScreen()
     }
 }
 

@@ -19,11 +19,3 @@ fun NavController.navigateToDiscovery() {
     navigate(DISCOVERY_ROUTE)
 }
 
-/**
- * 配置导航
- */
-fun NavGraphBuilder.discoveryScreen(toBack:()->Unit): Unit {
-    myComposable(DISCOVERY_ROUTE) {
-        DiscoveryRoute ()
-    }
-}
