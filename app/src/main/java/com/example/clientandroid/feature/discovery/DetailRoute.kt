@@ -157,13 +157,7 @@ private fun MyDiscoveryTopBar(toSearch: () -> Unit) {
             }
         },
         title = {
-            Row(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(
-                    text = "Discovery",
-                )
-            }
+
         },
         actions = {
             IconButton(onClick = {
