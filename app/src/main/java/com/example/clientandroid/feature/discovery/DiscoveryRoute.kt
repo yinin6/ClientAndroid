@@ -90,7 +90,7 @@ fun DiscoveryScreen(
                     ItemHot(
                         poetry = it,
                         onClick = {
-                            it.id?.let { it1 -> navController?.navigateToPoetryDetail(it1) }
+                            it.origin?.let { it1 -> navController?.navigateToPoetryDetail(it1) }
                         }
                     )
                 }
