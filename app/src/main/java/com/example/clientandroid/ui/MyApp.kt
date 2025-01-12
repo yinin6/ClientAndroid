@@ -5,6 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navigation
 import com.example.clientandroid.feature.guide.GuideRoute
 import com.example.clientandroid.feature.guide.GuideScreen
 import com.example.clientandroid.feature.guide.navigation.GUIDE_ROUTE
@@ -26,24 +27,26 @@ import com.example.clientandroid.feature.splash.navigation.splashScreen
 fun MyApp (){
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = LOGIN_ROUTE) {
-        splashScreen (
-            toGuide = navController::navigateToGuide,
-            toMain = navController::navigateToMain
-        )
-        guideScreen (
-            toBack = navController::popBackStack
-        )
+    NavHost(navController = navController, startDestination = LOGIN_ROUTE, route = "root") {
+            splashScreen(
+                toGuide = navController::navigateToGuide,
+                toMain = navController::navigateToMain
+            )
+            guideScreen(
+                toBack = navController::popBackStack
+            )
 
-        mainScreen(navController)
+            mainScreen(navController)
 
-        loginScreen(
-            toMain = navController::navigateToMain
-        )
+            loginScreen(
+                toMain = navController::navigateToMain
+            )
 
-        poetryDetailScreen(navController::popBackStack)
-
-        noteDetailScreen(navController::popBackStack)
-    }
+            poetryDetailScreen({
+                navController.previousBackStackEntry?.savedStateHandle?.set("shouldRefresh", true)
+                navController.popBackStack()
+            })
+            noteDetailScreen(navController::popBackStack)
+        }
 }
 

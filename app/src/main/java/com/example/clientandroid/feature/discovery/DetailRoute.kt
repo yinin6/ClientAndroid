@@ -15,7 +15,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -35,6 +34,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.clientandroid.core.model.PoetryOrigin
 import kotlinx.serialization.json.Json
 
@@ -43,14 +43,17 @@ fun DetailRoute(poetryJson: String?, toBack: () -> Unit) {
 
     Log.d("DetailRoute", "poetry:$poetryJson")
 
+    val viewModel:DiscoveryViewModel = viewModel()
+    viewModel.getPoems()
+
     val poetry = Json.decodeFromString<PoetryOrigin>(poetryJson ?: "")
-    PoetryScreen(poetry = poetry, toBack = toBack)
+    PoetryScreen(poetry = poetry, toBack = toBack, viewModel = viewModel)
 }
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PoetryScreen(poetry: PoetryOrigin, toBack: () -> Unit = {}) {
+fun PoetryScreen(poetry: PoetryOrigin, toBack: () -> Unit = {}, viewModel: DiscoveryViewModel= DiscoveryViewModel()) {
 
     Column(
         modifier = Modifier
@@ -60,7 +63,7 @@ fun PoetryScreen(poetry: PoetryOrigin, toBack: () -> Unit = {}) {
             .verticalScroll(rememberScrollState())
 
     ) {
-        MyDiscoveryTopBar(toBack)
+        MyDiscoveryTopBar(toBack, viewModel)
         Text(
             text = poetry.title ?: "",
             fontSize = 28.sp,
@@ -142,11 +145,12 @@ fun PoetryScreen(poetry: PoetryOrigin, toBack: () -> Unit = {}) {
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-private fun MyDiscoveryTopBar(toBack: () -> Unit) {
+private fun MyDiscoveryTopBar(toBack: () -> Unit, viewModel: DiscoveryViewModel= DiscoveryViewModel()) {
     TopAppBar(
         navigationIcon = {
             IconButton(onClick = {
                 toBack()
+                viewModel.refreshPoems()
             }) {
                 Icon(
                     imageVector = Icons.Default.ArrowBack, contentDescription = "back",
@@ -166,7 +170,6 @@ private fun MyDiscoveryTopBar(toBack: () -> Unit) {
                     modifier = Modifier.size(30.dp)
                 )
             }
-
         }
     )
 }

@@ -28,8 +28,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.clientandroid.core.model.DailyHot
 import com.example.clientandroid.core.model.PoetryData
-import com.example.clientandroid.feature.guide.navigation.navigateToPoetryDetail
-import com.example.clientandroid.feature.login.navigation.navigateToLogin
 
 
 @Composable
@@ -48,17 +46,13 @@ fun ItemHot(
             .background(color = Color.White)
 
     ) {
-
         Column (
             modifier = Modifier
                 .weight(1f)
                 .padding(1.dp)
         ) {
-            PoemCard(poetry, onClick,toBack)
+            PoemCard(poetry, onClick, toBack)
         }
-
-
-
     }
 }
 

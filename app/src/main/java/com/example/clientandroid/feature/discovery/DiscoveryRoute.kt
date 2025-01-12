@@ -22,6 +22,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -31,12 +32,15 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.clientandroid.core.model.DailyHot
 import com.example.clientandroid.core.model.PoetryData
 import com.example.clientandroid.core.ui.PreviewData
 import com.example.clientandroid.feature.discovery.DiscoveryViewModel
 import com.example.clientandroid.feature.discovery.component.ItemHot
+import com.example.clientandroid.feature.guide.navigation.DISCOVERY_ROUTE
+import com.example.clientandroid.feature.guide.navigation.MAIN_ROUTE
 import com.example.clientandroid.feature.guide.navigation.navigateToPoetryDetail
 
 
@@ -48,6 +52,16 @@ fun DiscoveryRoute(
     val viewModel:DiscoveryViewModel = viewModel()
     val poetry by viewModel.poetry.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
+
+    // 监听导航状态
+    LaunchedEffect(navController) {
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.route == "$MAIN_ROUTE/{username}") {
+                // 刷新数据
+                viewModel.refreshPoems()
+            }
+        }
+    }
 
    DiscoveryScreen(
         toSearch = { viewModel.refreshPoems() },
@@ -95,13 +109,17 @@ fun DiscoveryScreen(
                         }
                         ,
                         toBack = {
-                            Log.d("DiscoveryScreen", "navController?.navigateUp()")
-                            navController?.navigateUp()
+
                         }
                     )
                 }
             }
         }
+
+
+
+
+
     }
 }
 
@@ -137,7 +155,6 @@ private fun MyDiscoveryTopBar(toSearch: () -> Unit) {
                     imageVector = Icons.Default.Refresh, contentDescription = "Refresh",
                     modifier = Modifier.size(30.dp)
                 )
-
             }
         }
     )

@@ -19,6 +19,7 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
+import kotlin.math.log
 
 class DiscoveryViewModel: ViewModel() {
     /**
@@ -64,6 +65,10 @@ class DiscoveryViewModel: ViewModel() {
     // 刷新数据的方法
     fun refreshPoems() {
         getPoetry()
+    }
+
+    fun getPoems() {
+        Log.d(TAG, "getPoems: ${_poetry.value} , $_isLoading")
     }
 
 
