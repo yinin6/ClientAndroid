@@ -43,9 +43,9 @@ fun MyApp (){
             )
 
             poetryDetailScreen({
-                navController.previousBackStackEntry?.savedStateHandle?.set("shouldRefresh", true)
                 navController.popBackStack()
-            })
+            },
+                navController)
             noteDetailScreen(navController::popBackStack)
         }
 }

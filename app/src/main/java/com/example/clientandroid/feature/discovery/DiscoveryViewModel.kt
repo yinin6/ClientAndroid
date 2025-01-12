@@ -68,7 +68,7 @@ class DiscoveryViewModel: ViewModel() {
     }
 
     fun getPoems() {
-        Log.d(TAG, "getPoems: ${_poetry.value} , $_isLoading")
+        Log.d(TAG, "viewModelRemember: ${_poetry.value} , $_isLoading")
     }
 
 

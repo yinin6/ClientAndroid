@@ -1,5 +1,6 @@
 package com.example.clientandroid.feature.discovery
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -35,15 +36,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.clientandroid.core.model.PoetryOrigin
 import kotlinx.serialization.json.Json
 
+
 @Composable
-fun DetailRoute(poetryJson: String?, toBack: () -> Unit) {
-
-    Log.d("DetailRoute", "poetry:$poetryJson")
-
-    val viewModel:DiscoveryViewModel = viewModel()
+fun DetailRoute(poetryJson: String?, toBack: () -> Unit, navController: NavController) {
+    val viewModel:DiscoveryViewModel = viewModel(
+        navController.previousBackStackEntry!!
+    )
+    Log.d("DetailRoute", "poetry, :$poetryJson")
     viewModel.getPoems()
 
     val poetry = Json.decodeFromString<PoetryOrigin>(poetryJson ?: "")
