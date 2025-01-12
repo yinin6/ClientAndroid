@@ -37,6 +37,7 @@ import com.example.clientandroid.feature.guide.navigation.navigateToNoteDetailSc
 import com.example.clientandroid.feature.note.NoteViewModel
 import com.example.clientandroid.util.Base64ToBitmap
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.filled.Delete
@@ -89,7 +90,7 @@ fun NoteRoute(
             FloatingActionButton(
                 onClick = {
                     navController.navigateToNoteDetailScreen("asd")
-
+                    viewModel.newNote()
                 },
                 modifier = Modifier.padding(16.dp)
             ) {
@@ -105,7 +106,10 @@ fun NoteRoute(
             .padding(top = paddingValues.calculateTopPadding())
         ) {
             items(notes) { note ->
-                NoteItem(note = note , delNote = viewModel::delNote )
+                NoteItem(note = note , delNote = viewModel::delNote, toEdit = {
+                    navController.navigateToNoteDetailScreen("asd")
+                    viewModel.replayNote(note)
+                } )
                 Spacer(modifier = Modifier.height(8.dp))
             }
         }
@@ -114,7 +118,7 @@ fun NoteRoute(
 
 
 @Composable
-fun NoteItem(note: Note, delNote : (Note) -> Unit = {}) { Unit
+fun NoteItem(note: Note, delNote : (Note) -> Unit = {}, toEdit : () -> Unit = {}) { Unit
     var showDialog by remember { mutableStateOf(false) }
     // 控制是否显示卡片的状态
     var isVisible by remember { mutableStateOf(true) }
@@ -129,8 +133,10 @@ fun NoteItem(note: Note, delNote : (Note) -> Unit = {}) { Unit
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 8.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+            .padding(horizontal = 8.dp)
+            .clickable(onClick = toEdit),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+
     ) {
         Box(modifier = Modifier
             .fillMaxWidth()

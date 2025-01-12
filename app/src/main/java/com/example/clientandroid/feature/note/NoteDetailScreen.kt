@@ -24,15 +24,19 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import com.example.clientandroid.feature.discovery.DiscoveryViewModel
 import com.example.clientandroid.util.Base64ToBitmap
 import com.example.clientandroid.util.BitmapToBase64
 import com.example.clientandroid.util.CompressBitmap
 import java.io.ByteArrayOutputStream
 
 @Composable
-fun NoteDetailRoute(noteId : String?, toBack: () -> Unit){
-    val viewModel = NoteViewModel()
-
+fun NoteDetailRoute(noteId : String? , toBack: () -> Unit, navController: NavController){
+    val viewModel : NoteViewModel = viewModel(
+        navController.previousBackStackEntry!!
+    )
 
     NoteDetailScreen(viewModel, toBack)
 }
@@ -61,7 +65,14 @@ fun NoteDetailScreen(viewModel: NoteViewModel = NoteViewModel(), toBack: () -> U
 
     Scaffold (
         topBar = {
-            MyTopBar(toBack = toBack, addPic = { launcher.launch("image/*") }, title = username)
+            MyTopBar(toBack = {
+                if (username != null) {
+                    viewModel.saveNote(userId = username)
+                }
+                toBack()
+            }
+
+                , addPic = { launcher.launch("image/*") }, title = username)
 
         },
     )
@@ -115,14 +126,14 @@ fun NoteDetailScreen(viewModel: NoteViewModel = NoteViewModel(), toBack: () -> U
 
                         Spacer(modifier = Modifier.height(16.dp))
 
-                        Button(onClick = {
-                            Log.d("NoteDetailScreen", "username: $username")
-                            if (username != null) {
-                                viewModel.saveNote(userId = username)
-                            }
-                        }) {
-                            Text(text = "保存")
-                        }
+//                        Button(onClick = {
+//                            Log.d("NoteDetailScreen", "username: $username")
+//                            if (username != null) {
+//                                viewModel.saveNote(userId = username)
+//                            }
+//                        }) {
+//                            Text(text = "保存")
+//                        }
                     }
                 }
             }

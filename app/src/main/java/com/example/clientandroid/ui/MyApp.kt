@@ -43,7 +43,7 @@ fun MyApp (){
             )
 
             poetryDetailScreen(navController::popBackStack, navController)
-            noteDetailScreen(navController::popBackStack)
+            noteDetailScreen(navController::popBackStack, navController)
         }
 }
 

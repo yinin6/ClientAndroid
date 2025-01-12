@@ -13,6 +13,11 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class NoteViewModel : ViewModel() {
+
+    private val _id = MutableStateFlow<Int>(0)
+    val id: MutableStateFlow<Int> = _id
+
+
     private val _title = MutableStateFlow("")
     val title: StateFlow<String> = _title
 
@@ -40,6 +45,7 @@ class NoteViewModel : ViewModel() {
     fun updateImageUrl(newImageUrl: String?) {
         _imageBase64.value = newImageUrl
     }
+
     private companion object {
         const val TAG = "NoteViewModel"
     }
@@ -48,10 +54,28 @@ class NoteViewModel : ViewModel() {
         _loginRespond.value = NetworkResponse<Note>(status = 0)
     }
 
+
+    fun replayNote(note : Note) {
+        _loginRespond.value = NetworkResponse<Note>(status = 0)
+        _id.value = note.id
+        _title.value = note.title
+        _content.value = note.content
+        _imageBase64.value = note.imageBase64
+    }
+
+    fun newNote() {
+        _loginRespond.value = NetworkResponse<Note>(status = 0)
+        _id.value = 0
+        _title.value = ""
+        _content.value = ""
+        _imageBase64.value = null
+    }
+
     fun saveNote(userId : String) {
         viewModelScope.launch {
             val note = _imageBase64.value?.let {
                 Note(
+                    id = _id.value,
                     title = _title.value,
                     content = _content.value,
                     imageBase64 = it,

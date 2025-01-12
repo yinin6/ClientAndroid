@@ -16,14 +16,14 @@ fun NavController.navigateToNoteDetailScreen(noteId: String) {
 }
 
 
-fun NavGraphBuilder.noteDetailScreen(toBack : () -> Unit): Unit {
+fun NavGraphBuilder.noteDetailScreen(toBack : () -> Unit, navController: NavController): Unit {
     myComposable(
         "$NOTE_DETAIL_ROUTE/{noteId}",
         arguments = listOf(navArgument("noteId") { type = NavType.StringType })
     ) {
             backStackEntry ->
-        val poetryId = backStackEntry.arguments?.getString("noteId")
-        println(poetryId)
-        NoteDetailRoute(poetryId, toBack)
+        val noteId = backStackEntry.arguments?.getString("noteId")
+        println(noteId)
+        NoteDetailRoute(noteId, toBack, navController)
     }
 }
