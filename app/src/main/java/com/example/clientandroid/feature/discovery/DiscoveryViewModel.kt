@@ -36,6 +36,11 @@ class DiscoveryViewModel: ViewModel() {
     private val _poetry = MutableStateFlow<List<PoetryData>>(emptyList())
     val poetry: StateFlow<List<PoetryData>> = _poetry
 
+    private val _favoritePoetry = MutableStateFlow<List<PoetryData>>(emptyList())
+    val favoritePoetry: StateFlow<List<PoetryData>> = _favoritePoetry
+
+
+
 
     private val _isLoading = MutableStateFlow<Boolean>(true)
     val isLoading: StateFlow<Boolean> = _isLoading
@@ -66,6 +71,11 @@ class DiscoveryViewModel: ViewModel() {
                     }
                 }
             }
+
+            val f = MyRetrofitDatasource.getUserFavorites(_userID.value)
+            _favoritePoetry.value = f
+            Log.d(TAG, "_favoritePoetry: $f")
+
             _poetry.value = result
             _isLoading.value = false
         }
@@ -92,12 +102,25 @@ class DiscoveryViewModel: ViewModel() {
         }
     }
 
+    fun getFavorite() {
+        viewModelScope.launch {
+            val result = MyRetrofitDatasource.getUserFavoritesList(_userID.value)
+            Log.d(TAG, "getFavorite: $result")
+        }
+    }
+
+    fun removeFavorite(poem : PoetryData) {
+        viewModelScope.launch {
+            Log.d(TAG, "removeFavorite: $poem")
+            val result = MyRetrofitDatasource.removeFavorites(Favorite(userID = _userID.value,poem.id))
+            Log.d(TAG, "removeFavorite: $result")
+        }
+    }
 
 
 
 
-
-
+    // 测试 ---------------------------------------------------------------------------------
     private fun testRetrofitGet() {
         viewModelScope.launch {
             val result = MyRetrofitDatasource.poetry()

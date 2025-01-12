@@ -1,0 +1,180 @@
+package com.example.clientandroid.feature.favorite
+
+import android.content.Context
+import android.util.Log
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import com.example.clientandroid.core.model.DailyHot
+import com.example.clientandroid.core.model.PoetryData
+import com.example.clientandroid.core.ui.PreviewData
+import com.example.clientandroid.feature.discovery.DiscoveryViewModel
+import com.example.clientandroid.feature.discovery.component.ItemHot
+import com.example.clientandroid.feature.favorite.component.ItemFavorite
+import com.example.clientandroid.feature.guide.navigation.DISCOVERY_ROUTE
+import com.example.clientandroid.feature.guide.navigation.MAIN_ROUTE
+import com.example.clientandroid.feature.guide.navigation.navigateToPoetryDetail
+
+
+@Composable
+fun FavoriteRoute(
+    navController: NavController
+){
+    val viewModel:DiscoveryViewModel = viewModel()
+    val poetry by viewModel.poetry.collectAsState()
+    val favoritePoetry by viewModel.favoritePoetry.collectAsState()
+
+    val isLoading by viewModel.isLoading.collectAsState()
+
+    val context = LocalContext.current
+    val sharedPreferences = context.getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
+    val username = sharedPreferences.getString("username", "default_value")
+
+
+//
+//    LaunchedEffect(username) {
+//        Log.d("DiscoveryRoute", "lunched $username")
+//        viewModel.setUserID(username!!)
+//    }
+
+
+    FavoriteScreen(
+        toSearch = { viewModel.refreshPoems() },
+        poetryList = favoritePoetry,
+        isLoading = isLoading,
+        navController = navController,
+        viewModel = viewModel
+    )
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun FavoriteScreen(
+    poetryList: List<PoetryData> = emptyList(),
+    toSearch :() -> Unit = {},
+    isLoading : Boolean = false,
+    navController: NavController? = null,
+    viewModel: DiscoveryViewModel = viewModel()
+){
+    Scaffold (
+        topBar = {
+            MyDiscoveryTopBar(toSearch)
+        },
+        containerColor = Color.White
+    )
+    {
+            paddingValues ->
+
+        if (isLoading) {
+            LoadingIndicator()
+            return@Scaffold
+        }else {
+            LazyColumn (
+                contentPadding = PaddingValues(5.dp),
+                verticalArrangement = Arrangement.spacedBy(5.dp),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = paddingValues.calculateTopPadding())
+            ) {
+                items(poetryList) {
+                    ItemFavorite(
+                        poetry = it,
+                        onClick = {
+                            it.origin?.let { it1 -> navController?.navigateToPoetryDetail(it1) }
+                        }
+                        ,
+                        delFavorite = {
+                            it.let { it -> viewModel.removeFavorite(it) }
+                        }
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+@OptIn(ExperimentalMaterial3Api::class)
+private fun MyDiscoveryTopBar(toSearch: () -> Unit) {
+    TopAppBar(
+
+        title = {
+            Row(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = "喜欢",
+                )
+            }
+        },
+        actions = {
+            IconButton(onClick = {
+                toSearch()
+            }) {
+                Icon(
+                    imageVector = Icons.Default.Menu, contentDescription = "Menu",
+                    modifier = Modifier.size(30.dp)
+                )
+            }
+        }
+    )
+}
+
+
+// 显示加载动画
+@Composable
+fun LoadingIndicator() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = androidx.compose.ui.Alignment.Center
+    ) {
+        CircularProgressIndicator()
+    }
+}
+
+@Preview
+@Composable
+fun LoadingIndicatorPreview() {
+    LoadingIndicator()
+}
+
+
+
+@Preview
+@Composable
+fun DiscoveryScreenPreview() {
+    FavoriteScreen(
+    )
+}

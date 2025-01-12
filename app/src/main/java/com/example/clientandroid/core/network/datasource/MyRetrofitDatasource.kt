@@ -48,6 +48,16 @@ object MyRetrofitDatasource {
         return poetryList
     }
 
+
+    suspend fun getUserFavorites(username: String): List<PoetryData> {
+        val result = service.getUserFavorites(username)
+        val poetryList = mutableListOf<PoetryData>()
+        for (i in result) {
+            poetryList.add(i.data!!)
+        }
+        return poetryList
+    }
+
     suspend fun favorite(favorite: Favorite): NetworkResponse<Favorite> {
         return service.addFavorites(favorite)
     }
@@ -55,6 +65,21 @@ object MyRetrofitDatasource {
 
     suspend fun getUserFavoritesList(username: String): NetworkResponse<List<String>? >{
         return service.getUserFavoritesList(username)
+    }
+
+
+    suspend fun getFavoritePoetry(username: String): List<PoetryData> {
+        val result = service.getUserFavoritesList(username)
+        return if (result.data != null) {
+            val poetryList = mutableListOf<PoetryData>()
+            for (i in result.data!!) {
+
+            }
+            poetryList
+        } else {
+            emptyList()
+        }
+
     }
 
     suspend fun removeFavorites(favorite: Favorite): NetworkResponse<Favorite> {
