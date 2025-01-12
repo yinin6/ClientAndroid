@@ -21,4 +21,7 @@ interface LocalApiService {
     @GET("getUserNotes/{username}")
     suspend fun getUserNotes(@Path("username") username: String): NetworkResponse<List<Note>>
 
+    @GET("delNote/{id}")
+    suspend fun delNote(@Path("id") id: Int): NetworkResponse<Note>
+
 }

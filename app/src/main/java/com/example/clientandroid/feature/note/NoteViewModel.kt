@@ -71,4 +71,13 @@ class NoteViewModel : ViewModel() {
             Log.d(TAG, "getUserNote: ${_loginRespond.value!!.message}")
         }
     }
+
+    fun delNote(note: Note) {
+        viewModelScope.launch {
+            val result = LocalDatasource.delNote(note.id)
+            Log.d(TAG, "delNote: ${result.message}")
+//            getUserNote(note.username)
+        }
+
+    }
 }

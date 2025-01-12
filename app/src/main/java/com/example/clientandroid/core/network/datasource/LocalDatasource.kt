@@ -35,4 +35,8 @@ object LocalDatasource {
     suspend fun getUserNote(username : String): NetworkResponse<List<Note>> {
         return serviceLocal.getUserNotes(username)
     }
+
+    suspend fun delNote(id : Int): NetworkResponse<Note> {
+       return serviceLocal.delNote(id)
+    }
 }
