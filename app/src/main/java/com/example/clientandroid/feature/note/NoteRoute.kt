@@ -44,21 +44,31 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
+import com.example.clientandroid.feature.guide.navigation.MAIN_ROUTE
+import com.example.clientandroid.feature.guide.navigation.NOTE_DETAIL_ROUTE
 
 @Composable
 fun NoteRoute(
     navController: NavController
 ){
     val viewModel: NoteViewModel = viewModel()
-
     val notes by viewModel.notes.collectAsState()
 
     val context = LocalContext.current
     val sharedPreferences = context.getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
     val username = sharedPreferences.getString("username", "default_value")
 
-    LaunchedEffect(username){
-        viewModel.getUserNote(username!!)
+    viewModel.getUserNote(username!!)
+
+
+    // 监听导航状态
+    LaunchedEffect(navController) {
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.route == "$MAIN_ROUTE/{username}") {
+                // 刷新数据
+
+            }
+        }
     }
 
     Scaffold(

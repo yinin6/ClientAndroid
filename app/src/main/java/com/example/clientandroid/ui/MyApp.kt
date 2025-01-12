@@ -42,10 +42,7 @@ fun MyApp (){
                 toMain = navController::navigateToMain
             )
 
-            poetryDetailScreen({
-                navController.popBackStack()
-            },
-                navController)
+            poetryDetailScreen(navController::popBackStack, navController)
             noteDetailScreen(navController::popBackStack)
         }
 }

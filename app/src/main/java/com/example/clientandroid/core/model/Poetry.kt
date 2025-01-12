@@ -11,8 +11,8 @@ data class PoetryData (
     @SerialName("origin"            ) var origin            : PoetryOrigin?          = PoetryOrigin(),
     @SerialName("matchTags"         ) var matchTags         : ArrayList<String>? = arrayListOf(),
     @SerialName("recommendedReason" ) var recommendedReason : String?           = null,
-    @SerialName("cacheAt"           ) var cacheAt           : String?           = null
-
+    @SerialName("cacheAt"           ) var cacheAt           : String?           = null,
+    var favorite           : Boolean?           = false
 )
 
 @Serializable
@@ -34,6 +34,12 @@ data class Json2Poetry (
     @SerialName("warning" ) var warning : String? = null
 )
 
+
+@Serializable
+data class Favorite (
+    @SerialName("user_id"    ) var userID: String ? = null,
+    @SerialName("poem_id"    )var poemID: String? = null
+)
 
 
 

@@ -21,9 +21,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.clientandroid.core.design.component.MyNavigationBar
 import com.example.clientandroid.feature.main.navigation.TopLevelDestination
+import com.example.clientandroid.feature.note.NoteViewModel
 import kotlinx.coroutines.launch
 
 @Composable
@@ -32,6 +34,7 @@ fun MainRoute(
     navController: NavController
 ){
     Log.d("MainScreen", "MainRoute: $username")
+
     MainScreen(username,navController)
 }
 

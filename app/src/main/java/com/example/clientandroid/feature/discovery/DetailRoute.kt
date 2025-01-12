@@ -153,7 +153,7 @@ private fun MyDiscoveryTopBar(toBack: () -> Unit, viewModel: DiscoveryViewModel=
         navigationIcon = {
             IconButton(onClick = {
                 toBack()
-                viewModel.refreshPoems()
+//                viewModel.refreshPoems()
             }) {
                 Icon(
                     imageVector = Icons.Default.ArrowBack, contentDescription = "back",

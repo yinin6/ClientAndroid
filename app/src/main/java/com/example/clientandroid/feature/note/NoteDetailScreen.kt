@@ -32,9 +32,9 @@ import java.io.ByteArrayOutputStream
 @Composable
 fun NoteDetailRoute(noteId : String?, toBack: () -> Unit){
     val viewModel = NoteViewModel()
+
+
     NoteDetailScreen(viewModel, toBack)
-
-
 }
 
 @Composable

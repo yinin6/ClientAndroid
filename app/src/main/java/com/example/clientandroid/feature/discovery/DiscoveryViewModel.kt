@@ -1,11 +1,14 @@
 package com.example.clientandroid.feature.discovery
 
+import android.content.Context
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.clientandroid.core.config.Config
 import com.example.clientandroid.core.model.DailyHot
+import com.example.clientandroid.core.model.Favorite
 import com.example.clientandroid.core.model.PoetryData
 import com.example.clientandroid.core.model.PoetryOrigin
 import com.example.clientandroid.core.network.datasource.MyRetrofitDatasource
@@ -22,6 +25,8 @@ import okhttp3.OkHttpClient
 import kotlin.math.log
 
 class DiscoveryViewModel: ViewModel() {
+
+    private val _userID = MutableStateFlow("")
     /**
      * 商品列表
      */
@@ -35,29 +40,33 @@ class DiscoveryViewModel: ViewModel() {
     private val _isLoading = MutableStateFlow<Boolean>(true)
     val isLoading: StateFlow<Boolean> = _isLoading
 
-//    init {
-//        _datum.value = PreviewData.dailyHots
-//        testJSON()
-//        testOKHttpGet()
-//        testOKHttpCoroutine()
-//        testRetrofitGet()
-//    }
 
-    init {
+    fun setUserID(userID: String) {
+        if (_userID.value == userID) {
+            return
+        }
+        _userID.value = userID
         getPoetry()
     }
 
 
-    private fun getPoetry() : Unit{
+     fun getPoetry() : Unit{
         viewModelScope.launch {
             _isLoading.value = true
-            val poetryList = mutableListOf<PoetryData>()
-            for ( i in 0..2) {
-                val result = MyRetrofitDatasource.poetry()
-                result.data?.let { poetryList.add(it) }
+            val result = MyRetrofitDatasource.poetryOfNum(4)
+            Log.d(TAG, "getPoetry: $result")
+            val fl =  MyRetrofitDatasource.getUserFavoritesList(_userID.value)
+            for (poetry in result) {
+                if (fl.data == null) {
+                    continue
+                }
+                for (favorite in fl.data) {
+                    if (poetry.id == favorite) {
+                        poetry.favorite = true
+                    }
+                }
             }
-            _poetry.value = poetryList
-            Log.d(TAG, "getPoetry: $poetryList")
+            _poetry.value = result
             _isLoading.value = false
         }
     }
@@ -70,6 +79,22 @@ class DiscoveryViewModel: ViewModel() {
     fun getPoems() {
         Log.d(TAG, "viewModelRemember: ${_poetry.value} , $_isLoading")
     }
+
+    fun setFavorite(poem : PoetryData){
+        viewModelScope.launch {
+            val result = MyRetrofitDatasource.favorite(Favorite(userID = _userID.value,poem.id))
+            for (poetry in _poetry.value) {
+                if (poetry.id == poem.id) {
+
+                }
+            }
+            Log.d(TAG, "getFavorite: $result")
+        }
+    }
+
+
+
+
 
 
 

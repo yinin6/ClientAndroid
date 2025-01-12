@@ -1,6 +1,7 @@
 package com.example.clientandroid.feature.guide
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -28,6 +29,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -54,21 +56,39 @@ fun DiscoveryRoute(
     val poetry by viewModel.poetry.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
 
-    // 监听导航状态
-    LaunchedEffect(navController) {
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.route == "$MAIN_ROUTE/{username}") {
-                // 刷新数据
-                viewModel.refreshPoems()
-            }
-        }
+    val context = LocalContext.current
+    val sharedPreferences = context.getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
+    val username = sharedPreferences.getString("username", "default_value")
+
+
+
+    LaunchedEffect(username) {
+        Log.d("DiscoveryRoute", "lunched $username")
+        viewModel.setUserID(username!!)
     }
+
+
+    // 监听导航状态
+//    LaunchedEffect(navController) {
+//        navController.addOnDestinationChangedListener { _, destination, _ ->
+//            if (destination.route == "$MAIN_ROUTE/{username}") {
+//                if (username != null) {
+//                    viewModel.setUserID(username)
+//                }
+//            }
+//        }
+//    }
+
+
+
+
 
    DiscoveryScreen(
         toSearch = { viewModel.refreshPoems() },
         poetryList = poetry,
        isLoading = isLoading,
-        navController = navController
+        navController = navController,
+       viewModel = viewModel
     )
 }
 
@@ -80,7 +100,8 @@ fun DiscoveryScreen(
     dailyHots: List<DailyHot> = emptyList(),
     toSearch :() -> Unit = {},
     isLoading : Boolean = false,
-    navController: NavController? = null
+    navController: NavController? = null,
+    viewModel: DiscoveryViewModel = viewModel()
 ){
     Scaffold (
         topBar = {
@@ -109,8 +130,8 @@ fun DiscoveryScreen(
                             it.origin?.let { it1 -> navController?.navigateToPoetryDetail(it1) }
                         }
                         ,
-                        toBack = {
-
+                        toFavorite = {
+                            it.let { it -> viewModel.setFavorite(it) }
                         }
                     )
                 }

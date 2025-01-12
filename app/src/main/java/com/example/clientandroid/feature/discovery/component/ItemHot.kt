@@ -18,6 +18,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,7 +40,7 @@ fun ItemHot(
     poetry: PoetryData,
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
-    toBack : () -> Unit = {},
+    toFavorite : () -> Unit = {},
 ) {
 
     Row(
@@ -51,14 +55,15 @@ fun ItemHot(
                 .weight(1f)
                 .padding(1.dp)
         ) {
-            PoemCard(poetry, onClick, toBack)
+            PoemCard(poetry, onClick, toFavorite)
         }
     }
 }
 
 // 显示古诗的卡片
 @Composable
-fun PoemCard(poetry: PoetryData, onClick: () -> Unit = {}, toBack : () -> Unit = {}) {
+fun PoemCard(poetry: PoetryData, onClick: () -> Unit = {}, toFavorite : () -> Unit = {}) {
+    var isFavorite by remember { mutableStateOf(poetry.favorite) }
     Card(
         shape = RoundedCornerShape(8.dp),  // 卡片的圆角
         modifier = Modifier
@@ -98,7 +103,10 @@ fun PoemCard(poetry: PoetryData, onClick: () -> Unit = {}, toBack : () -> Unit =
             }
 
             IconButton(
-                onClick = {},
+                onClick = {
+                    isFavorite = !isFavorite!!
+                    toFavorite()
+                },
                 modifier = Modifier
                     .size(48.dp) // 设置按钮大小
                     .padding(8.dp)
@@ -106,9 +114,9 @@ fun PoemCard(poetry: PoetryData, onClick: () -> Unit = {}, toBack : () -> Unit =
             ) {
                 Icon(
                     modifier = Modifier.size(50.dp),
-                    imageVector = if (false) Icons.Filled.Favorite else Icons.Outlined.Favorite,
+                    imageVector = if (isFavorite == true) Icons.Filled.Favorite else Icons.Outlined.Favorite,
                     contentDescription = "收藏",
-                    tint = if (false) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface // 使用 Material 3 的主题颜色
+                    tint = if (isFavorite == true) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
                 )
             }
         }
