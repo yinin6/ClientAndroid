@@ -23,10 +23,10 @@ interface MyNetworkApiService {
 
 
     @GET("getFavoritesList/{username}")
-    suspend fun getUserFavoritesList(@Path("username") username: String):NetworkResponse<List<String>?>
+    suspend fun getUserFavoritesList(@Path("username") username: String):NetworkResponse<List<String?>?>
 
     @GET("getFavorites/{username}")
-    suspend fun getUserFavorites(@Path("username") username: String):List<Json2Poetry>
+    suspend fun getUserFavorites(@Path("username") username: String):List<Json2Poetry?>?
 
     @POST("removeFavorites")
     suspend fun removeFavorites(@Body favorite:Favorite): NetworkResponse<Favorite>

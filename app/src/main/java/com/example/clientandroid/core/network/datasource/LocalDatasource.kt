@@ -28,6 +28,11 @@ object LocalDatasource {
         return serviceLocal.login(request)
     }
 
+    suspend fun register(username: String, password: String):  NetworkResponse<LoginResponse>{
+        val request = LoginRequest(username, password)
+        return serviceLocal.register(request)
+    }
+
     suspend fun saveDiaryEntry(note : Note): NetworkResponse<Note> {
         return serviceLocal.saveDiaryEntry(note)
     }

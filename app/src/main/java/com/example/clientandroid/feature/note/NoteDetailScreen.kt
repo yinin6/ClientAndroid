@@ -89,7 +89,8 @@ fun NoteDetailScreen(viewModel: NoteViewModel = NoteViewModel(), toBack: () -> U
                             textStyle = MaterialTheme.typography.headlineMedium,
                             decorationBox = { innerTextField ->
                                 if (title.isEmpty()) {
-                                    Text(text = "标题", style = MaterialTheme.typography.headlineMedium)
+                                    Text(text = "标题",
+                                        style = MaterialTheme.typography.headlineMedium)
                                 }
                                 innerTextField()
                             }

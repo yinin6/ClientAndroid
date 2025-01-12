@@ -77,7 +77,6 @@ fun NoteRoute(
         navController.addOnDestinationChangedListener { _, destination, _ ->
             if (destination.route == "$MAIN_ROUTE/{username}") {
                 // 刷新数据
-
             }
         }
     }
@@ -145,8 +144,8 @@ fun NoteItem(note: Note, delNote : (Note) -> Unit = {}, toEdit : () -> Unit = {}
             Column(Modifier.padding(16.dp)) {
                 Text(
                     text = note.title,
-                    style = MaterialTheme.typography.headlineSmall,
-                    color = MaterialTheme.colorScheme.onSurface
+                    style = MaterialTheme.typography.headlineMedium,
+                    color = MaterialTheme.colorScheme.primary
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
@@ -168,7 +167,7 @@ fun NoteItem(note: Note, delNote : (Note) -> Unit = {}, toEdit : () -> Unit = {}
                         contentDescription = null,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(200.dp)
+
                             .clip(MaterialTheme.shapes.medium)
                     )
                 }

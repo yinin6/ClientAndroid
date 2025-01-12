@@ -100,7 +100,7 @@ class NoteViewModel : ViewModel() {
         viewModelScope.launch {
             val result = LocalDatasource.delNote(note.id)
             Log.d(TAG, "delNote: ${result.message}")
-//            getUserNote(note.username)
+
         }
 
     }

@@ -15,6 +15,9 @@ interface LocalApiService {
     @POST("login")
     suspend fun login(@Body request: LoginRequest): NetworkResponse<LoginResponse>
 
+    @POST("register")
+    suspend fun register(@Body request: LoginRequest): NetworkResponse<LoginResponse>
+
     @POST("saveNote")
     suspend fun saveDiaryEntry(@Body note : Note): NetworkResponse<Note>
 

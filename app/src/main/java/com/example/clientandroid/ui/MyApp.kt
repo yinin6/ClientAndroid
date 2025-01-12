@@ -18,6 +18,8 @@ import com.example.clientandroid.feature.guide.navigation.noteDetailScreen
 import com.example.clientandroid.feature.guide.navigation.poetryDetailScreen
 import com.example.clientandroid.feature.login.navigation.LOGIN_ROUTE
 import com.example.clientandroid.feature.login.navigation.loginScreen
+import com.example.clientandroid.feature.login.navigation.navigateToRegister
+import com.example.clientandroid.feature.login.navigation.registerScreen
 import com.example.clientandroid.feature.splash.SplashRoute
 import com.example.clientandroid.feature.splash.navigation.SPLASH_ROUTE
 import com.example.clientandroid.feature.splash.navigation.navigateToSplash
@@ -39,8 +41,13 @@ fun MyApp (){
             mainScreen(navController)
 
             loginScreen(
-                toMain = navController::navigateToMain
+                toMain = navController::navigateToMain,
+                toRegister = navController::navigateToRegister
             )
+
+        registerScreen (
+            toLogin = navController::popBackStack
+        )
 
             poetryDetailScreen(navController::popBackStack, navController)
             noteDetailScreen(navController::popBackStack, navController)

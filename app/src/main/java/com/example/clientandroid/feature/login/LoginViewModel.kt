@@ -18,6 +18,9 @@ class LoginViewModel: ViewModel() {
     private val _loginRespond = MutableStateFlow<NetworkResponse<LoginResponse>?>(null)
     var loginRespond : StateFlow<NetworkResponse<LoginResponse>?> = _loginRespond
 
+    private val _registerRespond = MutableStateFlow<NetworkResponse<LoginResponse>?>(null)
+    var registerRespond : StateFlow<NetworkResponse<LoginResponse>?> = _registerRespond
+
 
     private val _isLoading = MutableStateFlow<Boolean>(false)
     val isLoading: StateFlow<Boolean> = _isLoading
@@ -40,5 +43,16 @@ class LoginViewModel: ViewModel() {
             _isLoading.value = false
         }
     }
+
+    fun register(username: String, password: String) {
+        viewModelScope.launch {
+            Log.d(TAG, "login: LoginViewModel")
+            _registerRespond.value = LocalDatasource.register(username, password)
+            Log.d(TAG, "${_registerRespond.value}")
+
+        }
+    }
+
+
 
 }
