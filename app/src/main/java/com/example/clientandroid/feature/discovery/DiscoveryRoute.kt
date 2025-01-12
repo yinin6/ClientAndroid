@@ -1,5 +1,6 @@
 package com.example.clientandroid.feature.guide
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -91,6 +92,11 @@ fun DiscoveryScreen(
                         poetry = it,
                         onClick = {
                             it.origin?.let { it1 -> navController?.navigateToPoetryDetail(it1) }
+                        }
+                        ,
+                        toBack = {
+                            Log.d("DiscoveryScreen", "navController?.navigateUp()")
+                            navController?.navigateUp()
                         }
                     )
                 }

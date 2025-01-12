@@ -35,7 +35,7 @@ fun NavController.navigateToPoetryDetail(poetry: PoetryOrigin) : Unit {
 /**
  * 配置导航
  */
-fun NavGraphBuilder.poetryDetailScreen(): Unit {
+fun NavGraphBuilder.poetryDetailScreen(toBack : () -> Unit): Unit {
     myComposable(
         "$POETRY_DETAIL_ROUTE/{poetryId}",
         arguments = listOf(navArgument("poetryId") { type = NavType.StringType })
@@ -43,6 +43,6 @@ fun NavGraphBuilder.poetryDetailScreen(): Unit {
             backStackEntry ->
         val poetryId = backStackEntry.arguments?.getString("poetryId")
         println(poetryId)
-        DetailRoute(poetryId)
+        DetailRoute(poetryId, toBack)
     }
 }

@@ -30,15 +30,15 @@ import com.example.clientandroid.util.CompressBitmap
 import java.io.ByteArrayOutputStream
 
 @Composable
-fun NoteDetailRoute(noteId : String?){
+fun NoteDetailRoute(noteId : String?, toBack: () -> Unit){
     val viewModel = NoteViewModel()
-    NoteDetailScreen(viewModel)
+    NoteDetailScreen(viewModel, toBack)
 
 
 }
 
 @Composable
-fun NoteDetailScreen(viewModel: NoteViewModel = NoteViewModel()) {
+fun NoteDetailScreen(viewModel: NoteViewModel = NoteViewModel(), toBack: () -> Unit = {}) {
     val title by viewModel.title.collectAsState()
     val content by viewModel.content.collectAsState()
     val imageUrl by viewModel.imageUrl.collectAsState()
@@ -61,7 +61,7 @@ fun NoteDetailScreen(viewModel: NoteViewModel = NoteViewModel()) {
 
     Scaffold (
         topBar = {
-            MyTopBar(toSearch = { }, addPic = { launcher.launch("image/*") }, title = username)
+            MyTopBar(toBack = toBack, addPic = { launcher.launch("image/*") }, title = username)
 
         },
     )
@@ -151,11 +151,11 @@ fun NoteDetailScreen(viewModel: NoteViewModel = NoteViewModel()) {
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-private fun MyTopBar(toSearch: () -> Unit, title: String ?= "", addPic: () -> Unit) {
+private fun MyTopBar(toBack: () -> Unit, title: String ?= "", addPic: () -> Unit) {
     TopAppBar(
         navigationIcon = {
             IconButton(
-                onClick = { },
+                onClick = { toBack() },
             ) {
                 Icon(
                     imageVector = Icons.Default.ArrowBack, contentDescription = "Back",

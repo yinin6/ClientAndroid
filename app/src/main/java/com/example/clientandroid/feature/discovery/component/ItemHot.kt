@@ -38,6 +38,7 @@ fun ItemHot(
     poetry: PoetryData,
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
+    toBack : () -> Unit = {},
 ) {
 
     Row(
@@ -53,7 +54,7 @@ fun ItemHot(
                 .weight(1f)
                 .padding(1.dp)
         ) {
-            PoemCard(poetry, onClick)
+            PoemCard(poetry, onClick,toBack)
         }
 
 
@@ -63,7 +64,7 @@ fun ItemHot(
 
 // 显示古诗的卡片
 @Composable
-fun PoemCard(poetry: PoetryData, onClick: () -> Unit = {}) {
+fun PoemCard(poetry: PoetryData, onClick: () -> Unit = {}, toBack : () -> Unit = {}) {
     Card(
         shape = RoundedCornerShape(8.dp),  // 卡片的圆角
         modifier = Modifier
@@ -140,7 +141,6 @@ fun ItemHotPreview() {
             recommendedReason = "recommendedReason",
             cacheAt = "cacheAt"
         ),
-
     )
 }
 

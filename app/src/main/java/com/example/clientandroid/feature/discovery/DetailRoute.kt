@@ -39,20 +39,18 @@ import com.example.clientandroid.core.model.PoetryOrigin
 import kotlinx.serialization.json.Json
 
 @Composable
-fun DetailRoute(poetryJson: String?) {
+fun DetailRoute(poetryJson: String?, toBack: () -> Unit) {
 
     Log.d("DetailRoute", "poetry:$poetryJson")
 
     val poetry = Json.decodeFromString<PoetryOrigin>(poetryJson ?: "")
-    PoetryScreen(poetry = poetry)
+    PoetryScreen(poetry = poetry, toBack = toBack)
 }
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PoetryScreen(poetry: PoetryOrigin) {
-
-
+fun PoetryScreen(poetry: PoetryOrigin, toBack: () -> Unit = {}) {
 
     Column(
         modifier = Modifier
@@ -62,7 +60,7 @@ fun PoetryScreen(poetry: PoetryOrigin) {
             .verticalScroll(rememberScrollState())
 
     ) {
-        MyDiscoveryTopBar({})
+        MyDiscoveryTopBar(toBack)
         Text(
             text = poetry.title ?: "",
             fontSize = 28.sp,
@@ -144,11 +142,11 @@ fun PoetryScreen(poetry: PoetryOrigin) {
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-private fun MyDiscoveryTopBar(toSearch: () -> Unit) {
+private fun MyDiscoveryTopBar(toBack: () -> Unit) {
     TopAppBar(
         navigationIcon = {
             IconButton(onClick = {
-                toSearch()
+                toBack()
             }) {
                 Icon(
                     imageVector = Icons.Default.ArrowBack, contentDescription = "back",
@@ -161,7 +159,7 @@ private fun MyDiscoveryTopBar(toSearch: () -> Unit) {
         },
         actions = {
             IconButton(onClick = {
-                toSearch()
+
             }) {
                 Icon(
                     imageVector = Icons.Default.Refresh, contentDescription = "Refresh",
