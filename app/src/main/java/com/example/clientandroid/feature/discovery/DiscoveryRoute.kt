@@ -149,23 +149,13 @@ fun DiscoveryScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 private fun MyDiscoveryTopBar(toSearch: () -> Unit) {
     TopAppBar(
-        navigationIcon = {
-            IconButton(
-                onClick = { },
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Menu, contentDescription = "Back",
-                    modifier = Modifier.size(30.dp)
-                )
 
-            }
-        },
         title = {
             Row(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = "Discovery",
+                    text = "发现",
                 )
             }
         },

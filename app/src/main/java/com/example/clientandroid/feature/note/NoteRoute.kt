@@ -231,23 +231,12 @@ fun NoteItem(note: Note, delNote : (Note) -> Unit = {}, toEdit : () -> Unit = {}
 @OptIn(ExperimentalMaterial3Api::class)
 private fun MyTopBar(toSearch: () -> Unit) {
     TopAppBar(
-        navigationIcon = {
-            IconButton(
-                onClick = { },
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Menu, contentDescription = "Back",
-                    modifier = Modifier.size(30.dp)
-                )
-
-            }
-        },
         title = {
             Row(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = "Insight",
+                    text = "启发",
                 )
             }
         },

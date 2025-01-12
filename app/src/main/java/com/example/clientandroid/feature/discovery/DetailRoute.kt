@@ -163,16 +163,9 @@ private fun MyDiscoveryTopBar(toBack: () -> Unit, viewModel: DiscoveryViewModel=
         },
         title = {
 
-        },
-        actions = {
-            IconButton(onClick = {
-
-            }) {
-                Icon(
-                    imageVector = Icons.Default.Refresh, contentDescription = "Refresh",
-                    modifier = Modifier.size(30.dp)
-                )
-            }
+        }
+        , actions = {
+            Text("详情", fontSize = 20.sp)
         }
     )
 }

@@ -180,7 +180,7 @@ private fun MyTopBar(toBack: () -> Unit, title: String ?= "", addPic: () -> Unit
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = "$title",
+                    text = "新建",
                 )
             }
         },
