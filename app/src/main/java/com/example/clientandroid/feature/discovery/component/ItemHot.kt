@@ -105,6 +105,11 @@ fun PoemCard(poetry: PoetryData, onClick: () -> Unit = {}, toFavorite : () -> Un
             IconButton(
                 onClick = {
                     isFavorite = !isFavorite!!
+                    if (isFavorite == true) {
+                        poetry.favorite = true
+                    } else {
+                        poetry.favorite = false
+                    }
                     toFavorite()
                 },
                 modifier = Modifier

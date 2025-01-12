@@ -71,11 +71,7 @@ class DiscoveryViewModel: ViewModel() {
                     }
                 }
             }
-
-            val f = MyRetrofitDatasource.getUserFavorites(_userID.value)
-            _favoritePoetry.value = f
-            Log.d(TAG, "_favoritePoetry: $f")
-
+            getFavorite()
             _poetry.value = result
             _isLoading.value = false
         }
@@ -92,20 +88,24 @@ class DiscoveryViewModel: ViewModel() {
 
     fun setFavorite(poem : PoetryData){
         viewModelScope.launch {
-            val result = MyRetrofitDatasource.favorite(Favorite(userID = _userID.value,poem.id))
-            for (poetry in _poetry.value) {
-                if (poetry.id == poem.id) {
-
-                }
+            Log.d(TAG, "setFavorite: ${poem.favorite}")
+            if (poem.favorite == true) {
+                val result = MyRetrofitDatasource.favorite(Favorite(userID = _userID.value,poem.id))
+            } else {
+                val result = MyRetrofitDatasource.removeFavorites(Favorite(userID = _userID.value,poem.id))
             }
-            Log.d(TAG, "getFavorite: $result")
+
+            getFavorite()
+
+
         }
     }
 
     fun getFavorite() {
         viewModelScope.launch {
-            val result = MyRetrofitDatasource.getUserFavoritesList(_userID.value)
-            Log.d(TAG, "getFavorite: $result")
+            val f = MyRetrofitDatasource.getUserFavorites(_userID.value)
+            _favoritePoetry.value = f
+            Log.d(TAG, "_favoritePoetry: $f")
         }
     }
 
@@ -113,6 +113,14 @@ class DiscoveryViewModel: ViewModel() {
         viewModelScope.launch {
             Log.d(TAG, "removeFavorite: $poem")
             val result = MyRetrofitDatasource.removeFavorites(Favorite(userID = _userID.value,poem.id))
+            val temp : MutableList<PoetryData>  = mutableListOf()
+            for (poetry in _poetry.value) {
+                if (poetry.id == poem.id) {
+                    poetry.favorite = false
+                }
+                temp.add(poetry)
+            }
+            _poetry.value = temp
             Log.d(TAG, "removeFavorite: $result")
         }
     }

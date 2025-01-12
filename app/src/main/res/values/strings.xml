@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">ClientAndroid</string>
 
-    <string name="discovery">Find</string>
-    <string name="shortVideo">Short</string>
-    <string name="me">Me</string>
+    <string name="discovery">发现</string>
+    <string name="shortVideo">记录</string>
+    <string name="me">喜欢</string>
 </resources>

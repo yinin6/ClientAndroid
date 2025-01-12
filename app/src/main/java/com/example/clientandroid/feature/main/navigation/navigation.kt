@@ -13,20 +13,20 @@ enum class TopLevelDestination(
         val route : String
 ){
         DISCOVERY(
-                selectedIcon = R.drawable.home_selected,
-                unselectedIcon = R.drawable.home,
+                selectedIcon = R.drawable.find_selected,
+                unselectedIcon = R.drawable.find,
                 titleTextId = R.string.discovery,
                 route = DISCOVERY_ROUTE
         ),
         SHORTVIDEO(
-                selectedIcon = R.drawable.home_selected,
-                unselectedIcon = R.drawable.home,
+                selectedIcon = R.drawable.edit_selected,
+                unselectedIcon = R.drawable.edit,
                 titleTextId = R.string.shortVideo,
                 route = NOTE_ROUTE
         ),
         ME(
-                selectedIcon = R.drawable.home_selected,
-                unselectedIcon = R.drawable.home,
+                selectedIcon = R.drawable.fav_selec,
+                unselectedIcon = R.drawable.fav,
                 titleTextId= R.string.me,
                 route = Me_ROUTE
         )
